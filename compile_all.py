@@ -13,7 +13,7 @@ def file_exists(file_path):
 
 def main():
   for root, dirs, files in os.walk(path):
-    print('Checking ' + root)
+    print(('Checking ' + root))
     makefile = os.path.join(root, "Makefile")
     if file_exists(makefile):
       cmd = 'cd ' + root + '; make ' + action

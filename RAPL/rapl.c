@@ -1,5 +1,5 @@
 #include "rapl.h"
-
+#include <unistd.h>
 
 int cpu_model;
 int core=0;

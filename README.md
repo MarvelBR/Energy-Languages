@@ -1,3 +1,91 @@
+# Energy-Languages
+Este guia detalha os passos para configurar, executar e analisar os benchmarks de linguagens de programação para medição de desempenho (tempo de execução) em um ambiente WSL (Windows Subsystem for Linux).
+
+**Nota Importante:** A ferramenta de medição de energia (RAPL) neste projeto é otimizada para processadores Intel. Se você possui um processador AMD (igual a mim), a medição de consumo de energia (em Joules) não funcionará, mas a medição de tempo de execução (em milissegundos) será registrada com sucesso.
+
+## Configuração Inicial no WSL
+### Atualizar Pacotes do Sistema
+1. Abra seu terminal WSL e execute:
+    1. `sudo apt-get update`
+    2. `sudo apt-get upgrade`
+
+### Instalar Ferramentas Essenciais e Compiladores
+1. Instale as ferramentas básicas de compilação e os compiladores para as linguagens que você deseja testar. Ferramentas básicas (inclui make, gcc, g++)
+    1. `sudo apt-get install build-essential`
+    
+2. Exemplo de instalação de compiladores/interpretadores (instale apenas os que você precisa):
+    1. Para Ada: `sudo apt-get install gnat`         
+    2. Para C# e F#: `sudo apt-get install dotnet-sdk-8.0`
+    3. Para Dart: `sudo apt-get install dart`         
+    4. Para Erlang: `sudo apt-get install erlang`       
+    5. Para Fortran: `sudo apt-get install gfortran`     
+    6. Para Go: `sudo apt-get install golang-go`    
+    7. Para Haskell: `sudo apt-get install ghc`          
+    8. Para Java: `sudo apt-get install default-jdk`
+    9. Para JavaScript e TypeScript: `sudo apt-get install nodejs npm`   
+    10. Para TypeScript: `sudo npm install -g typescript`    
+    11. Para Julia: `sudo apt-get install julia`        
+    12. Para Lisp: `sudo apt-get install sbcl`      
+    13. Para Lua: `sudo apt-get install lua5.3`       
+    14. Para OCaml: `sudo apt-get install ocaml`       
+    15. Para Pascal: `sudo apt-get install fpc`         
+    16. Para PHP: `sudo apt-get install php-cli`      
+    17. Para Racket: `sudo apt-get install racket`    
+    18. Para Ruby: `sudo apt-get install ruby-full`    
+    19. Para Smalltalk: `sudo apt-get install gnu-smalltalk`
+    20. Para Rust: `curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh`
+        1. Siga as instruções na tela e reinicie o terminal.
+
+### Instalar Dependências Específicas do Projeto
+Alguns benchmarks em C exigem bibliotecas adicionais. Instale-as:
+1. `sudo apt-get install -y libapr1-dev libhts-dev`
+2. `sudo apt-get install -y libpcre3-dev`
+3. `sudo apt-get install libhts-dev`
+
+### Instalar Dependências Python
+O script `compile_all.py` requer a biblioteca `lazyme`:
+1. `pip install lazyme`
+
+## Preparação dos Benchmarks
+### Gerar Arquivos de Entrada
+O script `gen-input.sh` cria os arquivos de entrada necessários para alguns benchmarks.
+1. `./gen-input.sh`
+
+## Compilar e Medir os Benchmarks
+### Compilar a Ferramenta `RAPL/main`
+A ferramenta de medição de energia precisa ser compilada.
+1. Navegue até a pasta RAPL
+    1. `cd Energy-Languages/RAPL/`
+    2. `make`
+    3. Volte para a pasta Energy-Languages
+        1. `cd ../`
+
+### Executar a Medição
+Antes de executar o script, rode `compile_all.py` com a regra `compile` para verificar se todos os benchmarks estão funcionando corretamente.
+1. `compile_all.py compile`.
+
+Agora você pode executar o script `compile_all.py` com a regra `measure`, o que vai nos gerar um `.csv`.
+1. `compile_all.py measure`.
+
+**Importante:** A medição de energia requer `sudo`. Você precisará digitar sua senha quando solicitado.
+
+Para medir todos os benchmarks de uma linguagem específica (ex: C):
+1. `cd Energy-Languages/C/`
+    1. Recomendado: `compile_all.py compile`
+2. `python3 compile_all.py measure`
+
+Para medir todos os benchmarks de todas as linguagens (após compilar tudo):
+1. `cd Energy-Languages/`
+2. `python3 compile_all.py measure`
+
+## Análise dos Resultados
+Para entender melhor, a estrutura do .csv é a seguinte: `benchmark-name ; PKG (Joules) ; CPU (J) ; GPU (J) ; DRAM (J) ; Time (ms)`. 
+
+Porém você verá que (caso esteja usando um processador que não seja da Intel), onde deveriam estar os valores `PKG (Joules) ; CPU (J) ; GPU (J) ; DRAM (J)` estão com 0 ou vazios, isso ocorre pois, o RAPL (Running Average Power Limit) que é a interface que mede o consumo de energia de componentes do processador, não funciona em processadores que não sejam da Intel!
+
+Mas ainda nos sobra o tempo que demorou para as linguagens gerarem esses .csv, que é o que analisarei.
+
+
 # Energy Efficiency in Programming Languages
 #### Checking Energy Consumption in Programming Languages Using the _Computer Language Benchmark Game_ as a case study.
 

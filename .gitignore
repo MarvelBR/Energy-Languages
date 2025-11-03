@@ -6,3 +6,20 @@ tmp.*
 lshw
 sysinfo.*
 
+.venv
+.vscode
+
+# C generated files
+C/**/*.gcc_run
+
+# C++ generated files
+C++/**/*.o
+C++/**/*.gpp_run
+
+# Ada generated files
+Ada/**/*.gnat
+Ada/**/*.ali
+Ada/**/*.o
+Ada/**/*.gnat_run
+Ada/**/*.adb
+Ada/**/*.ads
