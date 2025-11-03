@@ -1,7 +1,7 @@
 # Energy-Languages
-Este guia detalha os passos para configurar, executar e analisar os benchmarks de linguagens de programação para medição de desempenho (tempo de execução) em um ambiente WSL (Windows Subsystem for Linux).
+Este README irei descrever os passos que dei para configurar, executar e analisar os benchmarks de linguagens de programação para medição de desempenho (focando no tempo de execução) em um ambiente WSL (Windows Subsystem for Linux).
 
-**Nota Importante:** A ferramenta de medição de energia (RAPL) neste projeto é otimizada para processadores Intel. Se você possui um processador AMD (igual a mim), a medição de consumo de energia (em Joules) não funcionará, mas a medição de tempo de execução (em milissegundos) será registrada com sucesso.
+**Nota Importante:** A ferramenta de medição de energia (RAPL) neste projeto é otimizada para processadores Intel. Se você possui um processador AMD (que é o meu caso), a medição de consumo de energia (em Joules) não funcionará, mas a medição de tempo de execução (em milissegundos) será registrada com sucesso.
 
 ## Configuração Inicial no WSL
 ### Atualizar Pacotes do Sistema
@@ -85,7 +85,7 @@ Porém você verá que (caso esteja usando um processador que não seja da Intel
 
 Mas ainda nos sobra o tempo que demorou para as linguagens gerarem esses .csv, que é o que analisarei.
 
-
+***Abaixo estará o README original do repositório!***
 # Energy Efficiency in Programming Languages
 #### Checking Energy Consumption in Programming Languages Using the _Computer Language Benchmark Game_ as a case study.
 
